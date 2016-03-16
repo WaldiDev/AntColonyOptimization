@@ -14,14 +14,14 @@ SfmlInput::~SfmlInput()
 
 void SfmlInput::SetPressedKey(sf::Keyboard::Key key)
 {	
-	assert(key >= 0 || key < 256);
+	if (key < 0 || key >= 256) return;
 	m_keyPressedList.at(key) = true;
 	
 }
 
 void SfmlInput::SetReleasedKey(sf::Keyboard::Key key)
 {
-	assert(key >= 0 || key < 256);
+	if (key < 0 || key >= 256) return;
 	m_keyPressedList.at(key) = false;
 }
 

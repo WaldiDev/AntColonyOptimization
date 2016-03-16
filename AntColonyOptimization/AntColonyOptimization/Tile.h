@@ -3,7 +3,7 @@
 #include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 
-enum TileType
+enum TerrainType
 {
 	STREET = 1,
 	GRASS = 2,
@@ -14,10 +14,17 @@ enum TileType
 	MOUNTAIN = 7
 };
 
+enum TileType
+{
+	NOTHING = 1,
+	FEED = 2,
+	NEST = 3
+};
+
 class Tile
 {
 public:
-	Tile(unsigned int row, unsigned int col, TileType type);
+	Tile(unsigned int row, unsigned int col, TerrainType type);
 	~Tile();
 
 	bool ContainMousePos(sf::Vector2f mousePos) const;
@@ -25,13 +32,19 @@ public:
 
 	void SetBorder();
 	void UnsetBorder();
+	TileType GetType() const;
+	void SetType(TileType newType);
+
 private:
+	TerrainType m_terrain;
 	TileType m_type;
 	sf::CircleShape m_shape;
 
 	const float m_ShapeRadius = 20.0f;
 
 	sf::Vector2f ComputePosition(unsigned int row, unsigned int col) const;
-	sf::Color ComputeColor(TileType type) const;
+	sf::Color ComputeColor(TerrainType type) const;
+	void RenderFeed(sf::RenderWindow& window);
+	void RenderNest(sf::RenderWindow& window);
 };
 

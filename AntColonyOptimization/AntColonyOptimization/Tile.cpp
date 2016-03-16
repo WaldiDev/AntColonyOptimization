@@ -1,7 +1,10 @@
 #include "Tile.h"
 
-Tile::Tile(unsigned int row, unsigned int col, TileType type)
-	: m_type(type)
+#include <SFML/Graphics/RectangleShape.hpp>
+
+Tile::Tile(unsigned int row, unsigned int col, TerrainType type)
+	: m_terrain(type)
+	, m_type(NOTHING)
 {
 	m_shape.setRadius(m_ShapeRadius);
 	m_shape.setPointCount(6);
@@ -23,6 +26,15 @@ bool Tile::ContainMousePos(sf::Vector2f mousePos) const
 void Tile::Render(sf::RenderWindow& window)
 {
 	window.draw(m_shape);
+
+	if (m_type == FEED)
+	{
+		RenderFeed(window);
+	}
+	else if (m_type == NEST)
+	{
+		RenderNest(window);
+	}
 }
 
 void Tile::SetBorder()
@@ -33,6 +45,16 @@ void Tile::SetBorder()
 void Tile::UnsetBorder()
 {
 	m_shape.setOutlineThickness(0.0f);
+}
+
+TileType Tile::GetType() const
+{
+	return m_type;
+}
+
+void Tile::SetType(TileType newType)
+{
+	m_type = newType;
 }
 
 sf::Vector2f Tile::ComputePosition(unsigned int row, unsigned int col) const
@@ -50,7 +72,7 @@ sf::Vector2f Tile::ComputePosition(unsigned int row, unsigned int col) const
 	return position;
 }
 
-sf::Color Tile::ComputeColor(TileType type) const
+sf::Color Tile::ComputeColor(TerrainType type) const
 {
 	switch (type)
 	{
@@ -80,4 +102,28 @@ sf::Color Tile::ComputeColor(TileType type) const
 	}
 
 	return sf::Color::White;
+}
+
+void Tile::RenderFeed(sf::RenderWindow& window)
+{
+	sf::RectangleShape box(sf::Vector2f(10.0f, 10.0f));
+	box.setPosition(m_shape.getPosition());
+	box.setOrigin(5.0f, 5.0f);
+	box.setFillColor(sf::Color::Blue);
+	box.setOutlineColor(sf::Color::Black);
+	box.setOutlineThickness(2.0f);
+
+	window.draw(box);
+}
+
+void Tile::RenderNest(sf::RenderWindow& window)
+{
+	sf::CircleShape circle(10.0f);
+	circle.setPosition(m_shape.getPosition());
+	circle.setOrigin(10.0f, 10.0f);
+	circle.setFillColor(sf::Color::Green);
+	circle.setOutlineColor(sf::Color::Black);
+	circle.setOutlineThickness(2.0f);
+
+	window.draw(circle);
 }

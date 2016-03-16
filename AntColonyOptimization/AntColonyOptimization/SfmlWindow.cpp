@@ -57,7 +57,16 @@ void SfmlWindow::Run()
 			{
 				auto mousePos = m_window->mapPixelToCoords(sf::Vector2i(event.mouseMove.x, event.mouseMove.y));
 				
-				m_tileMap.SetActiveTile(mousePos);
+				m_tileMap.MouseMovement(mousePos);
+			}
+			else if (event.type == sf::Event::MouseButtonPressed)
+			{
+				auto mousePos = m_window->mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
+				auto button = event.mouseButton.button;				
+				if (button == 0)
+				{
+					m_tileMap.MouseClick(mousePos);
+				}
 			}
 
 		}

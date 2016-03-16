@@ -9,12 +9,17 @@ public:
 	~TileMap();
 
 	void Render(sf::RenderWindow& window);
-	void SetActiveTile(sf::Vector2f mousePos);
+	void MouseMovement(sf::Vector2f mousePos);
+	void MouseClick(sf::Vector2f mousePos);
 		
 private:
+	int m_nest = -1;
 	int m_active = -1;
 	std::vector<Tile> m_tiles;
-	std::vector< std::vector<int>> m_map{
+
+	int FindMousePos(sf::Vector2f mousePos);
+
+	const std::vector< std::vector<int>> m_Map{
 		{ 1, 1, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 6, 6, 6, 6, 7, 7, 7, 7, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6 },
 		{ 2, 1, 1, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 6, 6, 6, 6, 7, 7, 7, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6 },
 		{ 2, 2, 2, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 2, 2, 6, 6, 7, 7, 7, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6 },
