@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics/RenderWindow.hpp>
+#include "TileMap.h"
 
 class SfmlCamera;
 class SfmlInput;
@@ -16,5 +17,6 @@ private:
 	sf::RenderWindow* m_window;
 	SfmlCamera* m_camera;
 	SfmlInput* m_input;
+	TileMap m_tileMap;
 };
 

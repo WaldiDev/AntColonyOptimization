@@ -20,7 +20,11 @@ public:
 	Tile(unsigned int row, unsigned int col, TileType type);
 	~Tile();
 
+	bool ContainMousePos(sf::Vector2f mousePos) const;
 	void Render(sf::RenderWindow& window);
+
+	void SetBorder();
+	void UnsetBorder();
 private:
 	TileType m_type;
 	sf::CircleShape m_shape;

@@ -8,16 +8,31 @@ Tile::Tile(unsigned int row, unsigned int col, TileType type)
 	m_shape.setPosition(ComputePosition(row, col));
 	m_shape.setOrigin(m_ShapeRadius, m_ShapeRadius);
 	m_shape.setFillColor(ComputeColor(type));
-
+	m_shape.setOutlineColor(sf::Color::Blue);
 }
 
 Tile::~Tile()
 {
 }
 
+bool Tile::ContainMousePos(sf::Vector2f mousePos) const
+{
+	return m_shape.getGlobalBounds().contains(mousePos);
+}
+
 void Tile::Render(sf::RenderWindow& window)
 {
 	window.draw(m_shape);
+}
+
+void Tile::SetBorder()
+{
+	m_shape.setOutlineThickness(2.0f);
+}
+
+void Tile::UnsetBorder()
+{
+	m_shape.setOutlineThickness(0.0f);
 }
 
 sf::Vector2f Tile::ComputePosition(unsigned int row, unsigned int col) const
@@ -57,8 +72,9 @@ sf::Color Tile::ComputeColor(TileType type) const
 	case HILL: 
 		return sf::Color(161, 64, 5);
 		break;
-	case MOUNTAIN: break;
+	case MOUNTAIN:
 		return sf::Color(128, 128, 128);
+		break;
 	default: 
 		break;
 	}

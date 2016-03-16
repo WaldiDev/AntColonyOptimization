@@ -3,8 +3,6 @@
 #include <SFML/Window.hpp>
 #include "SfmlCamera.h"
 #include "SfmlInput.h"
-#include "Tile.h"
-
 
 SfmlWindow::SfmlWindow(unsigned int windowWidth, unsigned int windowHeight)
 	: m_window(nullptr)
@@ -16,6 +14,7 @@ SfmlWindow::SfmlWindow(unsigned int windowWidth, unsigned int windowHeight)
 	m_camera = new SfmlCamera(sf::FloatRect(0, 0, static_cast<float>(windowWidth), static_cast<float>(windowHeight)));
 	m_window->setView(m_camera->GetView());
 	m_input = new SfmlInput(m_camera);
+
 }
 
 SfmlWindow::~SfmlWindow()
@@ -27,13 +26,6 @@ SfmlWindow::~SfmlWindow()
 
 void SfmlWindow::Run()
 {
-	
-
-
-	std::vector<Tile*> m_tiles;
-
-	
-
 	while (m_window->isOpen())
 	{
 		sf::Event event;
@@ -58,8 +50,14 @@ void SfmlWindow::Run()
 			}
 			else if (event.type == sf::Event::MouseWheelScrolled)
 			{
-				auto pos = m_window->mapPixelToCoords(sf::Vector2i(event.mouseWheelScroll.x, event.mouseWheelScroll.y));
-				m_camera->Zoom(event.mouseWheelScroll.delta, pos);
+				auto mousePos = m_window->mapPixelToCoords(sf::Vector2i(event.mouseWheelScroll.x, event.mouseWheelScroll.y));
+				m_camera->Zoom(event.mouseWheelScroll.delta, mousePos);
+			}
+			else if (event.type == sf::Event::MouseMoved)
+			{
+				auto mousePos = m_window->mapPixelToCoords(sf::Vector2i(event.mouseMove.x, event.mouseMove.y));
+				
+				m_tileMap.SetActiveTile(mousePos);
 			}
 
 		}
@@ -69,11 +67,8 @@ void SfmlWindow::Run()
 		m_input->Update();
 
 		m_window->setView(m_camera->GetView());
-
-		for (auto& m_tile : m_tiles)
-		{
-			m_tile->Render(*m_window);
-		}
+		
+		m_tileMap.Render(*m_window);
 
 		m_window->display();
 	}

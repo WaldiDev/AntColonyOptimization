@@ -7,9 +7,13 @@ class TileMap
 public:
 	TileMap();
 	~TileMap();
+
+	void Render(sf::RenderWindow& window);
+	void SetActiveTile(sf::Vector2f mousePos);
 		
 private:
-	std::vector<Tile*> m_tiles;
+	int m_active = -1;
+	std::vector<Tile> m_tiles;
 	std::vector< std::vector<int>> m_map{
 		{ 1, 1, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 6, 6, 6, 6, 7, 7, 7, 7, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6 },
 		{ 2, 1, 1, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 6, 6, 6, 6, 7, 7, 7, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6 },

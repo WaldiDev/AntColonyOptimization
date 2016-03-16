@@ -2,8 +2,8 @@
 
 int main()
 {
-	auto windowWidth = 1600u;
-	auto windowHeight = 1000u;
+	auto windowWidth = 1280;
+	auto windowHeight = 720u;
 
 	SfmlWindow window(windowWidth, windowHeight);
 	window.Run();
