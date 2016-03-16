@@ -3,6 +3,9 @@
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="RandomNumberGenerator.cpp" />
+    <ClCompile Include="Tile.cpp" />
+    <ClCompile Include="SfmlCamera.cpp" />
+    <ClCompile Include="SfmlInput.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RandomNumberGenerator.h" />
@@ -15,6 +18,9 @@
     <ClInclude Include="GraphEdge.h">
       <Filter>Graph</Filter>
     </ClInclude>
+    <ClInclude Include="Tile.h" />
+    <ClInclude Include="SfmlCamera.h" />
+    <ClInclude Include="SfmlInput.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Graph">
