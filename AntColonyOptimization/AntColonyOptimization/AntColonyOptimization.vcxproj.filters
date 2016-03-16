@@ -13,18 +13,10 @@
     <ClCompile Include="SfmlWindow.cpp">
       <Filter>SfmlComponents</Filter>
     </ClCompile>
+    <ClCompile Include="TileMap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RandomNumberGenerator.h" />
-    <ClInclude Include="GraphNode.h">
-      <Filter>Graph</Filter>
-    </ClInclude>
-    <ClInclude Include="Graph.h">
-      <Filter>Graph</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphEdge.h">
-      <Filter>Graph</Filter>
-    </ClInclude>
     <ClInclude Include="Tile.h" />
     <ClInclude Include="SfmlWindow.h">
       <Filter>SfmlComponents</Filter>
@@ -35,11 +27,9 @@
     <ClInclude Include="SfmlInput.h">
       <Filter>SfmlComponents</Filter>
     </ClInclude>
+    <ClInclude Include="TileMap.h" />
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Graph">
-      <UniqueIdentifier>{7388c639-bf64-4540-ba5c-a13242e45bcb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="SfmlComponents">
       <UniqueIdentifier>{940a2458-8620-45d5-98dd-8e8f1dc17c39}</UniqueIdentifier>
     </Filter>
