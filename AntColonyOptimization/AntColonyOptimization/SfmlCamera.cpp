@@ -28,7 +28,7 @@ void SfmlCamera::Zoom(float delta, sf::Vector2f mousePos)
 	}
 	else
 	{
-		m_view.setCenter(mousePos);
+		//m_view.setCenter(mousePos);
 		m_view.zoom(1 - m_Zoom);		
 	}
 	

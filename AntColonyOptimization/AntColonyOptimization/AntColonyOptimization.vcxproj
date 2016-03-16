@@ -152,6 +152,7 @@
     <ClCompile Include="RandomNumberGenerator.cpp" />
     <ClCompile Include="SfmlCamera.cpp" />
     <ClCompile Include="SfmlInput.cpp" />
+    <ClCompile Include="SfmlWindow.cpp" />
     <ClCompile Include="Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -161,6 +162,7 @@
     <ClInclude Include="RandomNumberGenerator.h" />
     <ClInclude Include="SfmlCamera.h" />
     <ClInclude Include="SfmlInput.h" />
+    <ClInclude Include="SfmlWindow.h" />
     <ClInclude Include="Tile.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
