@@ -8,13 +8,14 @@ SfmlWindow::SfmlWindow(unsigned int windowWidth, unsigned int windowHeight)
 	: m_window(nullptr)
 	, m_camera(nullptr)
 	, m_input(nullptr)
+	, m_tileMap()
+	, m_antManager(m_tileMap)
 {
 	m_window = new sf::RenderWindow(sf::VideoMode(windowWidth, windowHeight), "Ant Colony Optimization");
 
 	m_camera = new SfmlCamera(sf::FloatRect(0, 0, static_cast<float>(windowWidth), static_cast<float>(windowHeight)));
 	m_window->setView(m_camera->GetView());
 	m_input = new SfmlInput(m_camera);
-
 }
 
 SfmlWindow::~SfmlWindow()
@@ -68,12 +69,16 @@ void SfmlWindow::Run()
 					m_tileMap.MouseClick(mousePos);
 				}
 			}
-
 		}
 
 		m_window->clear();
 
 		m_input->Update();
+		
+		if (m_antManager.Run(m_tileMap, m_tileMap))
+		{
+			printf("");
+		}
 
 		m_window->setView(m_camera->GetView());
 		

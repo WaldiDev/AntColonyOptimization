@@ -4,7 +4,7 @@ class RandomNumberGenerator
 public:
 	RandomNumberGenerator();
 	~RandomNumberGenerator();
-
-	int RandomRange(int min, int max) const;
+	static void InitRandom();
+	static float GetRandom();
 };
 

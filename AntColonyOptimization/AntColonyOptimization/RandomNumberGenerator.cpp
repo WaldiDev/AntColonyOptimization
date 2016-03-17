@@ -1,11 +1,10 @@
 #include "RandomNumberGenerator.h"
 #include <cstdlib>
 #include <time.h>
-#include <SFML/Graphics.hpp>
 
 RandomNumberGenerator::RandomNumberGenerator()
 {
-	srand(time(nullptr));
+	
 }
 
 
@@ -13,9 +12,13 @@ RandomNumberGenerator::~RandomNumberGenerator()
 {
 }
 
-int RandomNumberGenerator::RandomRange(int min, int max) const
+void RandomNumberGenerator::InitRandom()
 {
-	// Todo: Check if max is smaller than min.
-	auto rndNumber = min + (rand() % static_cast<int>(max - min + 1));
+	srand(static_cast<unsigned int>(time(nullptr)));
+}
+
+float RandomNumberGenerator::GetRandom()
+{
+	auto rndNumber = rand()/float(RAND_MAX);
 	return rndNumber;
 }

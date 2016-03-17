@@ -24,7 +24,7 @@ enum TileType
 class Tile
 {
 public:
-	Tile(unsigned int row, unsigned int col, TerrainType terrain);
+	Tile(unsigned int row, unsigned int col, unsigned int pCol, TerrainType terrain);
 	~Tile();
 
 	bool ContainMousePos(sf::Vector2f mousePos) const;
@@ -35,15 +35,19 @@ public:
 	TileType GetType() const;
 	void SetType(TileType newType);
 
-	float GetPheromone() const;
+	double GetPheromone() const;
+	int GetWeight() const;
+
+	void AddPheromone(double pheromone);
 
 private:
 	TerrainType m_terrain;
 	TileType m_type;
 	sf::CircleShape m_shape;
 	sf::Vector2i m_position;
-	const float m_ShapeRadius = 20.0f;
-	float m_pheromone;
+	const double m_ShapeRadius = 20.0f;
+	double m_pheromone;
+	int m_weight;
 
 	sf::Vector2f ComputePosition(unsigned int row, unsigned int col) const;
 	static sf::Color ComputeColor(TerrainType type);

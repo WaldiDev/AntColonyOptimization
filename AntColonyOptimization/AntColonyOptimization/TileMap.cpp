@@ -15,7 +15,8 @@ TileMap::TileMap()
 		for (auto q = 0; q < m_ColCount; ++q)
 		{
 			auto terrain = static_cast<TerrainType>(m_Map.at(r).at(q));
-			Tile tile(r, q, terrain);
+			//auto leftQ = q - static_cast<int>(floor(r / 2.f));
+			Tile tile(r, q - static_cast<int>(floor(r / 2.f)), q, terrain);
 			row.push_back(tile);
 		}
 
@@ -108,19 +109,46 @@ std::vector<sf::Vector2i> TileMap::GetNeighbour(sf::Vector2i tile) const
 	return neighbours;
 }
 
+int TileMap::GetWeight(sf::Vector2i tile)
+{
+	return TileAt(tile).GetWeight();
+}
+
 int TileMap::Distance(sf::Vector2i start, sf::Vector2i dest) const
 {
 	 return (abs(start.x - dest.x) + abs(start.x + start.y - dest.x - dest.y) + abs(start.y - dest.y)) / 2;
 }
 
-float TileMap::GetPheromone(sf::Vector2i tile)
+double TileMap::GetPheromone(sf::Vector2i tile)
 {
 	return TileAt(tile).GetPheromone();
 }
 
+bool TileMap::GetNestPosition(sf::Vector2i& nestPos) const
+{
+	if (Exist(m_nest))
+	{
+		nestPos = m_nest;
+		return true;
+	}
+
+	return false;
+}
+
+void TileMap::AddPheromone(sf::Vector2i tile, double pheromone)
+{
+	TileAt(tile).AddPheromone(pheromone);
+}
+
+TileType TileMap::GetTileType(sf::Vector2i tile)
+{
+	return TileAt(tile).GetType();
+}
+
 Tile& TileMap::TileAt(int q, int r)
 {
-	return m_grid.at(r).at(q + r / 2 - static_cast<int>(floor(r / 2.f)));
+	auto col = q + static_cast<int>(floor(r / 2.f));
+	return m_grid.at(r).at(col);
 }
 
 Tile& TileMap::TileAt(sf::Vector2i index)
@@ -137,7 +165,7 @@ bool TileMap::Exist(sf::Vector2i index) const
 
 	auto floorX = static_cast<int>(floor(index.y / 2.f));
 
-	if (index.x < -floorX || index.x >= m_ColCount)
+	if (index.x < -floorX || index.x >= m_ColCount - floorX)
 	{
 		return false;
 	}
@@ -152,7 +180,7 @@ sf::Vector2i TileMap::FindMousePos(sf::Vector2f mousePos)
 	for (auto r = 0; r < m_RowCount; ++r)
 	{
 		auto row = m_grid.at(r);
-		for (auto q = 0; q < row.size(); ++q)
+		for (auto q = 0u; q < row.size(); ++q)
 		{
 			if (!row.at(q).ContainMousePos(mousePos))
 			{
@@ -160,7 +188,7 @@ sf::Vector2i TileMap::FindMousePos(sf::Vector2f mousePos)
 			}
 
 			index.y = r;
-			index.x = q;
+			index.x = q - static_cast<int>(floor(r / 2.f));
 			return index;			
 		}
 	}

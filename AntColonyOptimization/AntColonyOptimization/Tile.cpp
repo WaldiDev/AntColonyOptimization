@@ -2,15 +2,16 @@
 
 #include <SFML/Graphics/RectangleShape.hpp>
 
-Tile::Tile(unsigned int row, unsigned int col, TerrainType terrain)
+Tile::Tile(unsigned int row, unsigned int col, unsigned int pCol, TerrainType terrain)
 	: m_terrain(terrain)
 	, m_type(NOTHING)
 	, m_position(col, row)
-	, m_pheromone(0.0f)
+	, m_pheromone(0.5f)
+	, m_weight(ComputeWeight(terrain))
 {
 	m_shape.setRadius(m_ShapeRadius);
 	m_shape.setPointCount(6);
-	m_shape.setPosition(ComputePosition(row, col));
+	m_shape.setPosition(ComputePosition(row, pCol));
 	m_shape.setOrigin(m_ShapeRadius, m_ShapeRadius);
 	m_shape.setFillColor(ComputeColor(terrain));
 	m_shape.setOutlineColor(sf::Color::Blue);
@@ -59,9 +60,19 @@ void Tile::SetType(TileType newType)
 	m_type = newType;
 }
 
-float Tile::GetPheromone() const
+double Tile::GetPheromone() const
 {
 	return m_pheromone;
+}
+
+int Tile::GetWeight() const
+{
+	return m_weight;
+}
+
+void Tile::AddPheromone(double pheromone)
+{
+	m_pheromone += pheromone;
 }
 
 sf::Vector2f Tile::ComputePosition(unsigned int row, unsigned int col) const
@@ -99,9 +110,7 @@ sf::Color Tile::ComputeColor(TerrainType type)
 		return sf::Color(128, 128, 128);
 	default: 
 		return sf::Color::White;
-	}
-
-	
+	}	
 }
 
 int Tile::ComputeWeight(TerrainType type)
