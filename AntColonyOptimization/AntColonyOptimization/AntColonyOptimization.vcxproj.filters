@@ -14,6 +14,7 @@
       <Filter>SfmlComponents</Filter>
     </ClCompile>
     <ClCompile Include="TileMap.cpp" />
+    <ClCompile Include="AntAgent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RandomNumberGenerator.h" />
@@ -28,6 +29,7 @@
       <Filter>SfmlComponents</Filter>
     </ClInclude>
     <ClInclude Include="TileMap.h" />
+    <ClInclude Include="AntAgent.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="SfmlComponents">

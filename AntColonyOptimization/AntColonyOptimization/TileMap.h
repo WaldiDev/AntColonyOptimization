@@ -11,13 +11,21 @@ public:
 	void Render(sf::RenderWindow& window);
 	void MouseMovement(sf::Vector2f mousePos);
 	void MouseClick(sf::Vector2f mousePos);
-		
-private:
-	int m_nest = -1;
-	int m_active = -1;
-	std::vector<Tile> m_tiles;
+	std::vector<sf::Vector2i> GetNeighbour(sf::Vector2i tile);
 
-	int FindMousePos(sf::Vector2f mousePos);
+private:
+	sf::Vector2i m_nest;
+	sf::Vector2i m_active;
+
+	const int m_ColCount = 50;
+	const int m_RowCount = 30;
+	std::vector< std::vector<Tile>> m_grid;
+	
+	Tile& TileAt(int q, int r);
+	Tile& TileAt(sf::Vector2i index);
+	bool Exist(sf::Vector2i index) const;
+
+	sf::Vector2i FindMousePos(sf::Vector2f mousePos);
 
 	const std::vector< std::vector<int>> m_Map{
 		{ 1, 1, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 6, 6, 6, 6, 7, 7, 7, 7, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6 },

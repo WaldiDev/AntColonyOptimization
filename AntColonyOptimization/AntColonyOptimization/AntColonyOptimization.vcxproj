@@ -154,6 +154,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AntAgent.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="RandomNumberGenerator.cpp" />
     <ClCompile Include="SfmlCamera.cpp" />
@@ -163,6 +164,7 @@
     <ClCompile Include="TileMap.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AntAgent.h" />
     <ClInclude Include="RandomNumberGenerator.h" />
     <ClInclude Include="SfmlCamera.h" />
     <ClInclude Include="SfmlInput.h" />

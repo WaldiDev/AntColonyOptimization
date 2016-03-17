@@ -2,15 +2,16 @@
 
 #include <SFML/Graphics/RectangleShape.hpp>
 
-Tile::Tile(unsigned int row, unsigned int col, TerrainType type)
-	: m_terrain(type)
+Tile::Tile(unsigned int row, unsigned int col, TerrainType terrain)
+	: m_terrain(terrain)
 	, m_type(NOTHING)
+	, m_position(col, row)
 {
 	m_shape.setRadius(m_ShapeRadius);
 	m_shape.setPointCount(6);
 	m_shape.setPosition(ComputePosition(row, col));
 	m_shape.setOrigin(m_ShapeRadius, m_ShapeRadius);
-	m_shape.setFillColor(ComputeColor(type));
+	m_shape.setFillColor(ComputeColor(terrain));
 	m_shape.setOutlineColor(sf::Color::Blue);
 }
 
@@ -72,36 +73,52 @@ sf::Vector2f Tile::ComputePosition(unsigned int row, unsigned int col) const
 	return position;
 }
 
-sf::Color Tile::ComputeColor(TerrainType type) const
+sf::Color Tile::ComputeColor(TerrainType type)
 {
 	switch (type)
 	{
 	case STREET: 
 		return sf::Color(192, 186, 153);
-		break;
 	case GRASS: 
 		return sf::Color(166, 200, 64);
-		break;
 	case HIGHGRASS: 
 		return sf::Color(64, 69, 25);
-		break;
 	case SWAMPLAND: 
 		return sf::Color(78, 62, 21);
-		break;
 	case WATER: 
 		return sf::Color(21, 104, 156);
-		break;
 	case HILL: 
 		return sf::Color(161, 64, 5);
-		break;
 	case MOUNTAIN:
 		return sf::Color(128, 128, 128);
-		break;
 	default: 
-		break;
+		return sf::Color::White;
 	}
 
-	return sf::Color::White;
+	
+}
+
+int Tile::ComputeWeight(TerrainType type)
+{
+	switch (type)
+	{
+	case STREET:
+		return 2;
+	case GRASS:
+		return 4;
+	case HIGHGRASS:
+		return 5;
+	case SWAMPLAND:
+		return 7;
+	case WATER:
+		return 9;
+	case HILL:
+		return 10;
+	case MOUNTAIN:
+		return 9999;
+	default:
+		return -1;
+	}
 }
 
 void Tile::RenderFeed(sf::RenderWindow& window)

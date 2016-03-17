@@ -2,15 +2,24 @@
 
 
 TileMap::TileMap()
+	: m_nest(0, -1)
+	, m_active(0, -1)
 {
-	for (auto i = 0; i < 30; ++i)
+	m_grid.reserve(m_RowCount);
+
+	for (auto r = 0; r < m_RowCount; ++r)
 	{
-		for (auto y = 0; y < 50; ++y)
+		std::vector<Tile> row;
+		row.reserve(m_ColCount);
+
+		for (auto q = 0; q < m_ColCount; ++q)
 		{
-			auto type = m_Map[i][y];			
-			Tile tile(i, y, static_cast<TerrainType>(type));
-			m_tiles.push_back(tile);
+			auto terrain = static_cast<TerrainType>(m_Map.at(r).at(q));
+			Tile tile(r, q, terrain);
+			row.push_back(tile);
 		}
+
+		m_grid.push_back(row);
 	}
 }
 
@@ -21,67 +30,130 @@ TileMap::~TileMap()
 
 void TileMap::Render(sf::RenderWindow& window)
 {
-	for (auto& m_tile : m_tiles)
+	for (auto& tileRow : m_grid)
 	{
-		m_tile.Render(window);
+		for (auto& tile : tileRow)
+		{
+			tile.Render(window);
+		}
 	}
 }
 
 void TileMap::MouseMovement(sf::Vector2f mousePos)
 {
-	if (m_active >= 0)
+	if (m_active.y >= 0)
 	{
-		m_tiles.at(m_active).UnsetBorder();
+		TileAt(m_active).UnsetBorder();		
 	}
 
 	auto index = FindMousePos(mousePos);
-	if (index >= 0)
+	
+	if (!Exist(index))
 	{
-		m_active = index;
-		m_tiles.at(index).SetBorder();
+		m_active.y = -1;
 		return;
 	}
-
-	m_active = -1;
+		
+	m_active = index;
+	TileAt(m_active).SetBorder();	
 }
 
 void TileMap::MouseClick(sf::Vector2f mousePos)
 {
 	auto index = FindMousePos(mousePos);
-	if (index >= 0)
-	{
-		auto& tile = m_tiles.at(index);
 
-		if (m_nest < 0)
-		{
-			tile.SetType(NEST);
-			m_nest = index;
-		}
-		else if (m_nest == index)
-		{
-			tile.SetType(NOTHING);
-			m_nest = -1;
-		}
-		else if (tile.GetType() == FEED)
-		{
-			tile.SetType(NOTHING);
-		}
-		else
-		{
-			tile.SetType(FEED);
-		}
+	if (!Exist(index))
+	{
+		return;
 	}
+	
+	auto& tile = TileAt(index);
+
+	if (m_nest.y < 0)
+	{
+		tile.SetType(NEST);
+		m_nest = index;
+	}
+	else if (m_nest == index)
+	{
+		tile.SetType(NOTHING);
+		m_nest.y = -1;
+	}
+	else if (tile.GetType() == FEED)
+	{
+		tile.SetType(NOTHING);
+	}
+	else
+	{
+		tile.SetType(FEED);
+	}	
 }
 
-int TileMap::FindMousePos(sf::Vector2f mousePos)
+std::vector<sf::Vector2i> TileMap::GetNeighbour(sf::Vector2i tile)
 {
-	for (auto i = 0u; i < m_tiles.size(); ++i)
+	std::vector<sf::Vector2i> directions{ sf::Vector2i(1, 0), sf::Vector2i(1, -1), sf::Vector2i(0, -1), sf::Vector2i(-1, 0), sf::Vector2i(-1, 1), sf::Vector2i(0, 1) };
+
+	std::vector<sf::Vector2i> neighbours;
+	neighbours.reserve(6);
+
+	for (auto dir : directions)
 	{
-		if (m_tiles.at(i).ContainMousePos(mousePos))
+		auto neighbour = tile + dir;
+		if (Exist(neighbour))
 		{
-			return i;
+			neighbours.push_back(neighbour);
 		}
 	}
 
-	return -1;
+	return neighbours;
+}
+
+Tile& TileMap::TileAt(int q, int r)
+{
+	return m_grid.at(r).at(q + r / 2 - static_cast<int>(floor(r / 2.f)));
+}
+
+Tile& TileMap::TileAt(sf::Vector2i index)
+{
+	return TileAt(index.x, index.y);
+}
+
+bool TileMap::Exist(sf::Vector2i index) const
+{
+	if (index.y < 0 || index.y >= m_RowCount)
+	{
+		return false;
+	}
+
+	auto floorX = static_cast<int>(floor(index.y / 2.f));
+
+	if (index.x < -floorX || index.x >= m_ColCount - floorX)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+sf::Vector2i TileMap::FindMousePos(sf::Vector2f mousePos)
+{
+	sf::Vector2i index(0, -1);
+
+	for (auto r = 0; r < m_RowCount; ++r)
+	{
+		auto row = m_grid.at(r);
+		for (auto q = 0; q < row.size(); ++q)
+		{
+			if (!row.at(q).ContainMousePos(mousePos))
+			{
+				continue;
+			}
+
+			index.y = r;
+			index.x = q;
+			return index;			
+		}
+	}
+	
+	return index;
 }
