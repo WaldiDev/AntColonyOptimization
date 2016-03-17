@@ -6,7 +6,7 @@ TileMap::TileMap()
 	, m_active(0, -1)
 {
 	m_grid.reserve(m_RowCount);
-
+	
 	for (auto r = 0; r < m_RowCount; ++r)
 	{
 		std::vector<Tile> row;
@@ -69,7 +69,7 @@ void TileMap::MouseClick(sf::Vector2f mousePos)
 	
 	auto& tile = TileAt(index);
 
-	if (m_nest.y < 0)
+	if (!Exist(m_nest))
 	{
 		tile.SetType(NEST);
 		m_nest = index;
@@ -89,7 +89,7 @@ void TileMap::MouseClick(sf::Vector2f mousePos)
 	}	
 }
 
-std::vector<sf::Vector2i> TileMap::GetNeighbour(sf::Vector2i tile)
+std::vector<sf::Vector2i> TileMap::GetNeighbour(sf::Vector2i tile) const
 {
 	std::vector<sf::Vector2i> directions{ sf::Vector2i(1, 0), sf::Vector2i(1, -1), sf::Vector2i(0, -1), sf::Vector2i(-1, 0), sf::Vector2i(-1, 1), sf::Vector2i(0, 1) };
 
@@ -106,6 +106,16 @@ std::vector<sf::Vector2i> TileMap::GetNeighbour(sf::Vector2i tile)
 	}
 
 	return neighbours;
+}
+
+int TileMap::Distance(sf::Vector2i start, sf::Vector2i dest) const
+{
+	 return (abs(start.x - dest.x) + abs(start.x + start.y - dest.x - dest.y) + abs(start.y - dest.y)) / 2;
+}
+
+float TileMap::GetPheromone(sf::Vector2i tile)
+{
+	return TileAt(tile).GetPheromone();
 }
 
 Tile& TileMap::TileAt(int q, int r)
@@ -127,7 +137,7 @@ bool TileMap::Exist(sf::Vector2i index) const
 
 	auto floorX = static_cast<int>(floor(index.y / 2.f));
 
-	if (index.x < -floorX || index.x >= m_ColCount - floorX)
+	if (index.x < -floorX || index.x >= m_ColCount)
 	{
 		return false;
 	}

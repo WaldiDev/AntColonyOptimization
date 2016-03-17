@@ -6,6 +6,7 @@ Tile::Tile(unsigned int row, unsigned int col, TerrainType terrain)
 	: m_terrain(terrain)
 	, m_type(NOTHING)
 	, m_position(col, row)
+	, m_pheromone(0.0f)
 {
 	m_shape.setRadius(m_ShapeRadius);
 	m_shape.setPointCount(6);
@@ -56,6 +57,11 @@ TileType Tile::GetType() const
 void Tile::SetType(TileType newType)
 {
 	m_type = newType;
+}
+
+float Tile::GetPheromone() const
+{
+	return m_pheromone;
 }
 
 sf::Vector2f Tile::ComputePosition(unsigned int row, unsigned int col) const

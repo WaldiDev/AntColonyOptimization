@@ -35,12 +35,15 @@ public:
 	TileType GetType() const;
 	void SetType(TileType newType);
 
+	float GetPheromone() const;
+
 private:
 	TerrainType m_terrain;
 	TileType m_type;
 	sf::CircleShape m_shape;
 	sf::Vector2i m_position;
 	const float m_ShapeRadius = 20.0f;
+	float m_pheromone;
 
 	sf::Vector2f ComputePosition(unsigned int row, unsigned int col) const;
 	static sf::Color ComputeColor(TerrainType type);

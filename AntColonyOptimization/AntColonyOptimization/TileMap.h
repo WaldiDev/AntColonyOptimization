@@ -11,7 +11,9 @@ public:
 	void Render(sf::RenderWindow& window);
 	void MouseMovement(sf::Vector2f mousePos);
 	void MouseClick(sf::Vector2f mousePos);
-	std::vector<sf::Vector2i> GetNeighbour(sf::Vector2i tile);
+	std::vector<sf::Vector2i> GetNeighbour(sf::Vector2i tile) const;
+	int Distance(sf::Vector2i start, sf::Vector2i dest) const;
+	float GetPheromone(sf::Vector2i tile);
 
 private:
 	sf::Vector2i m_nest;

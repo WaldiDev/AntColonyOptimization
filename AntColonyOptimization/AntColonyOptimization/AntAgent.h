@@ -12,8 +12,12 @@ public:
 	void Go(TileMap& map, sf::Vector2i startPos);
 
 private:
-	std::vector<int> m_path;
+	std::vector<sf::Vector2i> m_path;
+	float m_alpha = 0.0f;
+	float m_beta = 0.0f;
 
-	std::vector<int> GetUnvisited(TileMap& map, sf::Vector2i startPos);
+	sf::Vector2i MakeDecision(TileMap& map, sf::Vector2i position);
+	std::vector<sf::Vector2i> GetUnvisited(TileMap& map, sf::Vector2i position);
+	
 };
 
