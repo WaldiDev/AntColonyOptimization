@@ -32,7 +32,7 @@ bool SfmlInput::GetKeyStatus(sf::Keyboard::Key key) const
 
 void SfmlInput::Update()
 {
-	m_camera->Move(GetCameraMovement());
+	m_camera->Move(GetCameraMovement(), 1.f);
 	if (m_keyPressedList.at(sf::Keyboard::LControl))
 	{
 		

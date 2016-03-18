@@ -14,6 +14,8 @@ SfmlWindow::SfmlWindow(unsigned int windowWidth, unsigned int windowHeight)
 	m_window = new sf::RenderWindow(sf::VideoMode(windowWidth, windowHeight), "Ant Colony Optimization");
 
 	m_camera = new SfmlCamera(sf::FloatRect(0, 0, static_cast<float>(windowWidth), static_cast<float>(windowHeight)));
+	m_camera->Zoom(-1, 0.7);
+	m_camera->Move(sf::Vector2f(35.f, 24.f), 10);
 	m_window->setView(m_camera->GetView());
 	m_input = new SfmlInput(m_camera);
 }
@@ -52,7 +54,7 @@ void SfmlWindow::Run()
 			else if (event.type == sf::Event::MouseWheelScrolled)
 			{
 				auto mousePos = m_window->mapPixelToCoords(sf::Vector2i(event.mouseWheelScroll.x, event.mouseWheelScroll.y));
-				m_camera->Zoom(event.mouseWheelScroll.delta, mousePos);
+				m_camera->Zoom(event.mouseWheelScroll.delta, 0.5f);
 			}
 			else if (event.type == sf::Event::MouseMoved)
 			{
@@ -71,7 +73,15 @@ void SfmlWindow::Run()
 			}
 		}
 
-		m_window->clear(sf::Color::Blue);
+		if (m_input->GetKeyStatus(sf::Keyboard::LControl))
+		{
+			m_window->clear(sf::Color::Blue);
+		}
+		else
+		{
+			m_window->clear();
+		}
+		
 
 		m_input->Update();
 		

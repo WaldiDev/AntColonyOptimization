@@ -9,9 +9,9 @@ public:
 
 	~SfmlCamera();
 
-	void Move(sf::Vector2f offset);
+	void Move(sf::Vector2f offset, float speed);
 	void Resize(sf::Vector2f newSize);
-	void Zoom(float delta, sf::Vector2f mousePos);
+	void Zoom(float delta, float factor);
 
 	sf::View GetView() const { return m_view; }
 
