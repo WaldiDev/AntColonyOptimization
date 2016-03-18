@@ -9,7 +9,7 @@ SfmlWindow::SfmlWindow(unsigned int windowWidth, unsigned int windowHeight)
 	, m_camera(nullptr)
 	, m_input(nullptr)
 	, m_tileMap()
-	, m_antManager(m_tileMap)
+	, m_antManager()
 {
 	m_window = new sf::RenderWindow(sf::VideoMode(windowWidth, windowHeight), "Ant Colony Optimization");
 
@@ -71,18 +71,16 @@ void SfmlWindow::Run()
 			}
 		}
 
-		m_window->clear();
+		m_window->clear(sf::Color::Blue);
 
 		m_input->Update();
 		
-		if (m_antManager.Run(m_tileMap, m_tileMap))
-		{
-			printf("");
-		}
+		m_antManager.Run(m_tileMap, m_tileMap);
+		
 
 		m_window->setView(m_camera->GetView());
 		
-		m_tileMap.Render(*m_window);
+		m_tileMap.Render(*m_window, sf::Keyboard::isKeyPressed(sf::Keyboard::LControl));
 
 		m_window->display();
 	}

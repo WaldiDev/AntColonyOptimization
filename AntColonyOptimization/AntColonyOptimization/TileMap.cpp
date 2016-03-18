@@ -29,13 +29,13 @@ TileMap::~TileMap()
 {
 }
 
-void TileMap::Render(sf::RenderWindow& window)
+void TileMap::Render(sf::RenderWindow& window, bool grey)
 {
 	for (auto& tileRow : m_grid)
 	{
 		for (auto& tile : tileRow)
 		{
-			tile.Render(window);
+			tile.Render(window, grey);
 		}
 	}
 }
@@ -143,6 +143,18 @@ void TileMap::AddPheromone(sf::Vector2i tile, double pheromone)
 TileType TileMap::GetTileType(sf::Vector2i tile)
 {
 	return TileAt(tile).GetType();
+}
+
+void TileMap::Evaporation(double rho)
+{
+	auto value = 1 - rho;
+	for (auto& row : m_grid)
+	{
+		for (auto& tile : row)
+		{
+			tile.Evaporation(value);
+		}
+	}
 }
 
 Tile& TileMap::TileAt(int q, int r)

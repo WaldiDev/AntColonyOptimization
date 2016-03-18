@@ -13,37 +13,6 @@ AntAgent::~AntAgent()
 {
 }
 
-void AntAgent::Go(TileMap& oldMap, TileMap& newMap, sf::Vector2i startPos)
-{	
-	m_path.clear();
-	
-	// Travesierungsphase
-	m_path.push_back(startPos);
-	while (true)
-	{
-		auto currentPos = m_path.at(m_path.size() - 1);
-		auto nextPos = MakeDecision(oldMap, currentPos);
-		if (nextPos != currentPos)
-		{
-			m_path.push_back(nextPos);
-		}
-		else
-		{
-			break;
-		}		
-	}
-
-	// Makierungsphase
-	auto length = m_path.size();
-	auto manhatten = oldMap.Distance(m_path.at(0), m_path.at(length - 1));
-	auto pheromone = manhatten / length;
-
-	for (auto& tile : m_path)
-	{
-		newMap.AddPheromone(tile, pheromone);
-	}
-}
-
 bool AntAgent::FindFeed(TileMap& map, sf::Vector2i start)
 {
 	m_path.push_back(start);
@@ -103,19 +72,12 @@ sf::Vector2i AntAgent::MakeDecision(TileMap& map, sf::Vector2i position)
 		neighbourSum += result;
 		decisionTable.push_back(entry);
 	}
-
-	/*if (neighbourSum < m_Eps)
-	{
-		return position;
-	}*/
-
+	
 	for (auto& decision : decisionTable)
 	{
 		decision.coefficient /= neighbourSum;
 	}
 
-	sort (decisionTable.begin(), decisionTable.end(), DecisionTableGetLower);
-	
 	auto random = RandomNumberGenerator::GetRandom();
 	
 	double sumCoefficient = 0;
@@ -156,14 +118,4 @@ std::vector<sf::Vector2i> AntAgent::GetUnvisited(TileMap& map, sf::Vector2i posi
 	}
 
 	return result;
-}
-
-bool AntAgent::DecisionTableGetLower(const DecisionEntry &e1, const DecisionEntry &e2)
-{
-	if (e1.coefficient < e2.coefficient)
-	{
-		return true;
-	}		
-	
-	return false;
 }

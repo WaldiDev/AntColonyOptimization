@@ -6,7 +6,7 @@ Tile::Tile(unsigned int row, unsigned int col, unsigned int pCol, TerrainType te
 	: m_terrain(terrain)
 	, m_type(NOTHING)
 	, m_position(col, row)
-	, m_pheromone(0.5f)
+	, m_pheromone(0.1f)
 	, m_weight(ComputeWeight(terrain))
 {
 	m_shape.setRadius(m_ShapeRadius);
@@ -26,8 +26,18 @@ bool Tile::ContainMousePos(sf::Vector2f mousePos) const
 	return m_shape.getGlobalBounds().contains(mousePos);
 }
 
-void Tile::Render(sf::RenderWindow& window)
+void Tile::Render(sf::RenderWindow& window, bool grey)
 {
+	if (grey)
+	{
+		auto colorV = (int)(m_pheromone * 100);
+		m_shape.setFillColor(sf::Color(colorV, colorV, colorV));
+	}
+	else
+	{
+		m_shape.setFillColor(ComputeColor(m_terrain));
+	}
+
 	window.draw(m_shape);
 
 	if (m_type == FEED)
@@ -73,6 +83,27 @@ int Tile::GetWeight() const
 void Tile::AddPheromone(double pheromone)
 {
 	m_pheromone += pheromone;
+}
+
+void Tile::SetPheromone(double pheromone)
+{
+	if (pheromone < 0.1)
+	{
+		m_pheromone = 0.1;
+	}
+	else
+	{
+		m_pheromone = pheromone;
+	}
+}
+
+void Tile::Evaporation(double rho)
+{
+	m_pheromone *= rho;
+	if (m_pheromone < 0.1)
+	{
+		m_pheromone = 0.1;
+	}
 }
 
 sf::Vector2f Tile::ComputePosition(unsigned int row, unsigned int col) const

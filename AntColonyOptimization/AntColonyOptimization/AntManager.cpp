@@ -1,31 +1,33 @@
 #include "AntManager.h"
 #include "AntAgent.h"
 
-AntManager::AntManager(TileMap& tileMap)
-	: m_alpha(1.0)
-	, m_beta(5.0)
+AntManager::AntManager()
+	: m_alpha(2.0)
+	, m_beta(3.0)
+	, m_evaporation(0.3)
 	, m_antCount(1000u)
 {
 }
 
-bool AntManager::Run(TileMap currentMap, TileMap& newMap)
+void AntManager::Run(TileMap currentMap, TileMap& newMap)
 {
 	sf::Vector2i nestPos;
+	
+	newMap.Evaporation(m_evaporation);
+
 	if (!currentMap.GetNestPosition(nestPos))
 	{
-		return false;
+		return;
 	}
-
+	
 	for (auto i = 0u; i < m_antCount; ++i)
 	{
-		AntAgent ant(m_alpha, m_beta);
+		AntAgent ant(m_alpha, m_beta);		
 		if (ant.FindFeed(currentMap, nestPos))
 		{
 			ant.MarkPath(newMap);
 		}
 	}
-
-	return true;
 }
 
 
@@ -37,6 +39,11 @@ void AntManager::SetAlphaValue(double alpha)
 void AntManager::SetBetaValue(double beta)
 {
 	m_beta = beta;
+}
+
+void AntManager::SetEvaporation(double evaporation)
+{
+	m_evaporation = evaporation;
 }
 
 void AntManager::SetAntCount(unsigned int antCount)

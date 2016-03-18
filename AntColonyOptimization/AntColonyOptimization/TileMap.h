@@ -8,7 +8,7 @@ public:
 	TileMap();
 	~TileMap();
 
-	void Render(sf::RenderWindow& window);
+	void Render(sf::RenderWindow& window, bool grey);
 	void MouseMovement(sf::Vector2f mousePos);
 	void MouseClick(sf::Vector2f mousePos);
 	std::vector<sf::Vector2i> GetNeighbour(sf::Vector2i tile) const;
@@ -18,6 +18,7 @@ public:
 	bool GetNestPosition(sf::Vector2i& nestPos) const;
 	void AddPheromone(sf::Vector2i tile, double pheromone);
 	TileType GetTileType(sf::Vector2i tile);
+	void Evaporation(double rho);
 
 private:
 	sf::Vector2i m_nest;

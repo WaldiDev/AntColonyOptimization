@@ -28,7 +28,7 @@ public:
 	~Tile();
 
 	bool ContainMousePos(sf::Vector2f mousePos) const;
-	void Render(sf::RenderWindow& window);
+	void Render(sf::RenderWindow& window, bool grey);
 
 	void SetBorder();
 	void UnsetBorder();
@@ -39,6 +39,8 @@ public:
 	int GetWeight() const;
 
 	void AddPheromone(double pheromone);
+	void SetPheromone(double pheromone);
+	void Evaporation(double rho);
 
 private:
 	TerrainType m_terrain;
@@ -48,6 +50,7 @@ private:
 	const double m_ShapeRadius = 20.0f;
 	double m_pheromone;
 	int m_weight;
+	static bool drawGrey;
 
 	sf::Vector2f ComputePosition(unsigned int row, unsigned int col) const;
 	static sf::Color ComputeColor(TerrainType type);
