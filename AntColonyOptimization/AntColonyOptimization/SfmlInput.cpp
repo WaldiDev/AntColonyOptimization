@@ -25,9 +25,18 @@ void SfmlInput::SetReleasedKey(sf::Keyboard::Key key)
 	m_keyPressedList.at(key) = false;
 }
 
+bool SfmlInput::GetKeyStatus(sf::Keyboard::Key key) const
+{
+	return m_keyPressedList.at(key);
+}
+
 void SfmlInput::Update()
 {
 	m_camera->Move(GetCameraMovement());
+	if (m_keyPressedList.at(sf::Keyboard::LControl))
+	{
+		
+	}
 }
 
 sf::Vector2f SfmlInput::GetCameraMovement()

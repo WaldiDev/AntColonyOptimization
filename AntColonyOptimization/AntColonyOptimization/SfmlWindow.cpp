@@ -80,7 +80,7 @@ void SfmlWindow::Run()
 
 		m_window->setView(m_camera->GetView());
 		
-		m_tileMap.Render(*m_window, sf::Keyboard::isKeyPressed(sf::Keyboard::LControl));
+		m_tileMap.Render(*m_window, m_input->GetKeyStatus(sf::Keyboard::LControl));
 
 		m_window->display();
 	}

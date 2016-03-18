@@ -30,8 +30,20 @@ void Tile::Render(sf::RenderWindow& window, bool grey)
 {
 	if (grey)
 	{
-		auto colorV = (int)(m_pheromone * 100);
-		m_shape.setFillColor(sf::Color(colorV, colorV, colorV));
+		int color;
+		if (m_pheromone < 1)
+		{
+			color = 1;
+		}
+		else if(m_pheromone > 255)
+		{
+			color = 255;
+		}
+		else
+		{
+			color = m_pheromone;
+		}
+		m_shape.setFillColor(sf::Color(color, color, color));
 	}
 	else
 	{

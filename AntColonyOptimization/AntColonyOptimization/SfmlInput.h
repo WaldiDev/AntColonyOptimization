@@ -15,11 +15,14 @@ public:
 	void SetPressedKey(sf::Keyboard::Key key);
 	void SetReleasedKey(sf::Keyboard::Key key);
 
+	bool GetKeyStatus(sf::Keyboard::Key key) const;
+
 	void Update();
 
 private:
 	std::vector<bool> m_keyPressedList;
 	SfmlCamera* m_camera;
+	
 
 	sf::Vector2f GetCameraMovement();
 };

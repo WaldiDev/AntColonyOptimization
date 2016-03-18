@@ -157,6 +157,11 @@ void TileMap::Evaporation(double rho)
 	}
 }
 
+void TileMap::SetColorMode(bool s)
+{
+	m_color = s;
+}
+
 Tile& TileMap::TileAt(int q, int r)
 {
 	auto col = q + static_cast<int>(floor(r / 2.f));

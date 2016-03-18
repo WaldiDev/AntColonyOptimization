@@ -19,6 +19,7 @@ public:
 	void AddPheromone(sf::Vector2i tile, double pheromone);
 	TileType GetTileType(sf::Vector2i tile);
 	void Evaporation(double rho);
+	void SetColorMode(bool s);
 
 private:
 	sf::Vector2i m_nest;
@@ -27,7 +28,7 @@ private:
 	const int m_ColCount = 50;
 	const int m_RowCount = 30;
 	std::vector< std::vector<Tile>> m_grid;
-	
+	bool m_color;
 	Tile& TileAt(int q, int r);
 	Tile& TileAt(sf::Vector2i index);
 	bool Exist(sf::Vector2i index) const;
